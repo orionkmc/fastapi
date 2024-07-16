@@ -1,12 +1,4 @@
-# Ignorar todos los archivos compilados de Python
 *.pyc
+__pycache__/*
+.venv
 
-# Ignorar todos los directorios __pycache__ y su contenido
-__pycache__/
-
-# Ignorar archivos de configuración específicos
-config/__pycache__/
-config/__pycache__/*
-
-# Otros archivos o directorios que deseas ignorar
-# /path/to/other/directory_or_file_to_ignore
