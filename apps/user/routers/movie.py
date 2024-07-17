@@ -2,19 +2,18 @@ from config.database import Session
 from fastapi import APIRouter, Path, Query, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from typing import List
-
-from apps.movie.schemas.movie import MovieSchema
-from apps.movie.services.movie import MovieService
 from middlewares.jwt_bearer import JWTBearer
+from apps.movie.services.movie import MovieService
+from apps.movie.schemas.movie import MovieSchema
+from typing import List
 
 movie_router = APIRouter()
 
 
 # All movies
-@movie_router.get("/movie/all", tags=["Movies"], response_model=List[MovieSchema], status_code=200, dependencies=[Depends(JWTBearer())])
+@movie_router.get("/movies", tags=["Movies"], response_model=List[MovieSchema], status_code=200, dependencies=[Depends(JWTBearer())])
 # @movie_router.get("/movies", tags=["Movies"], response_model=List[MovieSchema], status_code=200)
-def get_all_movies() -> List[MovieSchema]:
+def get_movies() -> List[MovieSchema]:
     db = Session()
     result = MovieService(db).get_movies()
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
