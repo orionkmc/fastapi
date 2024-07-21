@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Path
 from enum import Enum
 from typing import Annotated
 from pydantic import BaseModel
@@ -145,6 +145,19 @@ async def read_items_deprecating_param(
     ] = None,
 ):
     results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
+@basic_router.get("/number_validations/items/{item_id}", tags=["Number Validations"])
+async def read_items_number_validations(
+    *,
+    item_id: Annotated[int, Path(title="The ID of the item to get", ge=1, le=1000)],
+    q: str,
+    size: Annotated[float, Path(g=0, lt=10.5)],
+):
+    results = {"item_id": item_id}
     if q:
         results.update({"q": q})
     return results
